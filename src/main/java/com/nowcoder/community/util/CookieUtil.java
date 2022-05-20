@@ -7,7 +7,6 @@ public class CookieUtil {
 
     public static String getValue(HttpServletRequest request, String name){
         if (request == null || name == null) {
-
             throw new IllegalArgumentException("参数为空!");
         }
 

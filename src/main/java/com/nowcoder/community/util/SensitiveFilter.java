@@ -131,7 +131,7 @@ public class SensitiveFilter {
         return !CharUtils.isAsciiAlphanumeric(c) && (c < 0x2E80 || c > 0x9FFF);
     }
 
-    // 前缀树节点
+    // 前缀树节点(内部类)
     private class TrieNode {
 
         // 关键词结束标识

@@ -2,9 +2,11 @@ package com.nowcoder.community;
 
 import com.nowcoder.community.dao.DiscussPostMapper;
 import com.nowcoder.community.dao.LoginTicketMapper;
+import com.nowcoder.community.dao.MessageMapper;
 import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.LoginTicket;
+import com.nowcoder.community.entity.Message;
 import com.nowcoder.community.entity.User;
 import com.nowcoder.community.util.CommunityUtil;
 import org.junit.jupiter.api.Test;
@@ -27,6 +29,9 @@ public class MapperTests {
 
     @Autowired
     private LoginTicketMapper loginTicketMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Test
     public void testSelectUser(){
@@ -103,6 +108,34 @@ public class MapperTests {
     public void testPassword(){
         String s = CommunityUtil.md5("123" + "c1018");
         System.out.println(s);
+    }
+
+    @Test
+    public void testSelectLetters(){
+        // 查询当前用户的会话列表
+        List<Message> list = messageMapper.selectConversations(111, 0, 20);
+        for (Message message : list){
+            System.out.println(message);
+        }
+
+        // 查询当前用户的会话数量
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println("当前用户的会话数量: " + count);
+
+        // 查询某个会话所包含的私信列表
+        list = messageMapper.selectLetters("111_112", 0, 10);
+        for (Message message : list){
+            System.out.println(message);
+        }
+
+        // 查询某个会话包含的私信数量
+        count = messageMapper.selectLetterCount("111_112");
+        System.out.println("会话包含的私信数量: " + count);
+
+        // 查询未读私信的数量
+        count = messageMapper.selectLetterUnreadCount(131, "111_131");
+        System.out.println("未读私信的数量: " + count);
+
     }
 
 }
