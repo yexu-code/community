@@ -7,7 +7,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EventProduer {
+public class EventProducer {
 
     @Autowired
     private KafkaTemplate kafkaTemplate;

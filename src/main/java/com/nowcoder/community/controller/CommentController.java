@@ -3,7 +3,7 @@ package com.nowcoder.community.controller;
 import com.nowcoder.community.entity.Comment;
 import com.nowcoder.community.entity.DiscussPost;
 import com.nowcoder.community.entity.Event;
-import com.nowcoder.community.event.EventProduer;
+import com.nowcoder.community.event.EventProducer;
 import com.nowcoder.community.service.CommentService;
 import com.nowcoder.community.service.DiscussPostService;
 import com.nowcoder.community.util.CommunityConstant;
@@ -27,7 +27,7 @@ public class CommentController implements CommunityConstant {
     private HostHolder hostHolder;
 
     @Autowired
-    private EventProduer eventProduer;
+    private EventProducer eventProducer;
 
     @Autowired
     private DiscussPostService discussPostService;
@@ -53,7 +53,17 @@ public class CommentController implements CommunityConstant {
             Comment target = commentService.findCommentById(comment.getEntityId());
             event.setEntityUserId(target.getUserId());
         }
-        eventProduer.fireEvent(event);
+        eventProducer.fireEvent(event);
+
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            // 触发发帖事件(ES)
+            event = new Event()
+                    .setTopic(TOPIC_PUBLISH)
+                    .setUserId(comment.getUserId())
+                    .setEntityType(ENTITY_TYPE_POST)
+                    .setEntityId(discussPostId);
+            eventProducer.fireEvent(event);
+        }
 
         return "redirect:/discuss/detail/" + discussPostId;
     }

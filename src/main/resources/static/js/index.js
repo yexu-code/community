@@ -5,6 +5,15 @@ $(function(){
 function publish() {
 	$("#publishModal").modal("hide");
 
+	// 发送AJAX请求之前,将CDRF令牌设置到请求的消息头中
+	// var token = $("meta[name='_csrf']").attr("content");
+	// var header = $("meta[name='_csrf_header']").attr("content");
+	// $(document).ajaxSend(function (e, xhr, options) {
+	// 	xhr.setRequestHeader(header, token);
+	// });
+	// 以上几句注释掉了,如果其他异步请求的页面也想要使用CSRF,则复用以上两行代码,还有index.html中的代码
+
+
 	// 获取标题和内容
 	var title = $("#recipient-name").val();
 	var content = $("#message-text").val();

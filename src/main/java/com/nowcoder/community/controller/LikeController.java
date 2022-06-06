@@ -2,7 +2,7 @@ package com.nowcoder.community.controller;
 
 import com.nowcoder.community.entity.Event;
 import com.nowcoder.community.entity.User;
-import com.nowcoder.community.event.EventProduer;
+import com.nowcoder.community.event.EventProducer;
 import com.nowcoder.community.service.LikeService;
 import com.nowcoder.community.util.CommunityConstant;
 import com.nowcoder.community.util.CommunityUtil;
@@ -26,7 +26,7 @@ public class LikeController implements CommunityConstant {
     private HostHolder hostHolder;
 
     @Autowired
-    private EventProduer eventProduer;
+    private EventProducer eventProducer;
 
     @RequestMapping(path = "/like", method = RequestMethod.POST)
     @ResponseBody
@@ -53,7 +53,7 @@ public class LikeController implements CommunityConstant {
                     .setEntityId(entityId)
                     .setEntityUserId(entityUserId)
                     .setData("postId", postId);
-            eventProduer.fireEvent(event);
+            eventProducer.fireEvent(event);
         }
 
         return CommunityUtil.getJSONString(0, null, map);
